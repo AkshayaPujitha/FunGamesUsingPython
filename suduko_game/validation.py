@@ -1,8 +1,4 @@
-def check():
-    pass
-
-def validate(dic):
-    l=[[1,0,4,2,0,7,9,8,0],
+l=[[1,0,4,2,0,7,9,8,0],
        [0,8,0,0,0,0,6,0,2],
        [6,0,0,8,0,3,0,0,7],
        [0,0,0,9,4,1,0,6,0],
@@ -11,21 +7,72 @@ def validate(dic):
        [4,0,0,5,0,2,0,0,1],
        [2,0,7,0,0,0,0,9,0],
        [0,5,9,1,0,4,3,0,6]]
+def check(grid,row,column,number):
+    for i in range(0,9):
+        if grid[row][i]==number:
+            print("in row")
+            return False
+    #checks the column
+    for i in range(0,9):
+        if grid[i][column]==number:
+            print("In column")
+            return False
+    row=row//3
+    column=column//3
+    if row==1:
+        row=3
+    elif row==2:
+        row=6
+    if column==1:
+        column=3
+    elif column==2:
+        column=6
+    #checks 3X3 square grid
+    for i in range(row,row+3):
+        for j in range(column,column+3):
+            if grid[i][j]==number:
+                print("here 3X3")
+                return False
+    
+    return True
+
+def validate(dic,validated,existed):
+    global l
+    #print(l)
+    for i in validated:
+        num=int(i[3::])
+        row=num//9
+        column=(num-1)-(row*9)
+        l[row][column]=int(existed[i])
+    #print(l)
+    flag=1
+    error=[] 
+    validated=[]
+    #print(dic,"dixdd")
     for i in dic:
         num=int(i[3::])
-        print(num)
+        #print(num)
         row=num//9
         column=(num-1)-(row*9)
         #print(row,column)
-        l[row][column]=int(dic[i])
-        value=check(l)
+        
+        x=int(dic[i])
+        value=check(l,row,column,x)
+        print(value)
         if value:
+            l[row][column]=int(dic[i])
+            validated.append(i)
             pass
         else:
-            return False
-
+            flag=0
+            l[row][column]=int(dic[i])
+            error.append(i)
+    if flag==0:
+        return False,error
+    return True,validated
 
 
 if __name__=="__main__" :
-    dic={'num12':2}
-    validate(dic)
+    dic={'num1':3,'num2':2,'num3':3}
+    m=validate(dic)
+    print(m)
