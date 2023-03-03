@@ -21,7 +21,7 @@ def submit():
     dic={}
     data={}
     l=['1','2','3','4','5','6','7','8','9']
-    
+    win=False
     for i in range(1,83):
         x="num"+str(i)
         num=request.form.get(str(i))
@@ -29,7 +29,7 @@ def submit():
             existed[x]=num
             dic[x]=num
         if x in existed and num=='':
-            del existed[x]
+            existed[x]=''
         
 
         elif num  in l :
@@ -45,8 +45,8 @@ def submit():
                 existed[x]=num
     
     
-    print(dic)
-    #print(existed)
+    #print(dic)
+    print(existed)
     #print(data)
     correct,lis=validate(existed)
     print(lis)
@@ -61,12 +61,17 @@ def submit():
        
        
     else:
+       print(len(lis))
+       if len(lis)==45:
+           win=True
+           
+           
        color=""
-
+    
 
         
     data=existed
-    return render_template("suduko.html",data=data,error=error)
+    return render_template("suduko.html",data=data,error=error,win=win)
 
 if __name__=="__main__":
     app.run(debug=True)
