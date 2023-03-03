@@ -17,6 +17,9 @@
 			font-family: Arial, sans-serif;
 			cursor: pointer;
 		}
+		.head{
+			margin-top: 1%;
+		}
 		td:nth-child(3n) {
 			border-right: 3px solid black;
 		}
@@ -47,12 +50,15 @@
 		body {
 			zoom: 150%;
 		}
+		.win{
+			margin-top: 1%;
+		}
 		  
 		  
 	</style>
 </head>
 <body>
-	<h1 style="text-align:center">Sudoku</h1>
+	<h1  class="head" style="text-align:center">Sudoku</h1>
 	<form action="/submit" method="post">
 	<table>
 		<tr>
@@ -162,6 +168,11 @@
 	<div style="text-align:center">
 		<input type="submit" value="submit" style="margin:2%">
 		<input type="submit" value="clear" style="margin:2%">
+	</div>
+	<div style="text-align:center">
+		{% if win %}
+			<h2 style="color:green" class="win">You Won!!!!!</h2>
+		{% endif %}
 	</div>
 </form>
 <script>
