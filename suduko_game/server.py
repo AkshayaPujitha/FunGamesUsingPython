@@ -6,8 +6,9 @@ app=Flask(__name__)
 @app.route("/")
 def home():
     data={}
-    color={}
-    return render_template("suduko.html",data=data,color=color)
+    
+    error={}
+    return render_template("suduko.html",data=data,error=error)
 
 validated=[]
 existed={}
@@ -27,6 +28,9 @@ def submit():
         if (len(existed)==0 and num in l) :
             existed[x]=num
             dic[x]=num
+        if x in existed and num=='':
+            del existed[x]
+        
 
         elif num  in l :
             try:
@@ -42,25 +46,27 @@ def submit():
     
     
     print(dic)
-    print(existed)
+    #print(existed)
     #print(data)
-    correct,lis=validate(dic,validated,existed)
+    correct,lis=validate(existed)
+    print(lis)
     #print(num)
     #print(validated)
     print(correct)
+    error={}
     if correct==False:
-       print(lis)
        color="background-color:#f56f6f"
+       for i in lis:
+           error[i]=color
+       
        
     else:
-       for i in lis:
-           validated.append(i)
        color=""
 
 
         
     data=existed
-    return render_template("suduko.html",data=data,color=color)
+    return render_template("suduko.html",data=data,error=error)
 
 if __name__=="__main__":
     app.run(debug=True)
