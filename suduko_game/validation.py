@@ -46,9 +46,16 @@ def validate(existed):
     #print(l)
     if len(existed)!=0:
         for i in existed:
+            
             num=int(i[3::])
+
             row=num//9
+            if num%9==0:
+                row=row-1
             column=(num-1)-(row*9)
+            if existed[i]=='':
+                l[row][column]=0
+                continue
             l[row][column]=int(existed[i])
     print(np.matrix(l))
     flag=1
@@ -59,10 +66,14 @@ def validate(existed):
         num=int(i[3::])
         #print(num)
         row=num//9
+        if num%9==0:
+            row=row-1
         column=(num-1)-(row*9)
         #print(row,column)
-        
-        x=int(existed[i])
+        try:
+            x=int(existed[i])
+        except:
+            continue
         value=check(l,row,column,x)
         #print(value)
         if value:
