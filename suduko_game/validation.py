@@ -1,3 +1,5 @@
+import numpy as np
+
 l=[[1,0,4,2,0,7,9,8,0],
        [0,8,0,0,0,0,6,0,2],
        [6,0,0,8,0,3,0,0,7],
@@ -8,13 +10,15 @@ l=[[1,0,4,2,0,7,9,8,0],
        [2,0,7,0,0,0,0,9,0],
        [0,5,9,1,0,4,3,0,6]]
 def check(grid,row,column,number):
+    r=row
+    c=column
     for i in range(0,9):
-        if grid[row][i]==number:
+        if grid[row][i]==number and i!=column:
             print("in row")
             return False
     #checks the column
     for i in range(0,9):
-        if grid[i][column]==number:
+        if grid[i][column]==number and i!=row:
             print("In column")
             return False
     row=row//3
@@ -30,42 +34,44 @@ def check(grid,row,column,number):
     #checks 3X3 square grid
     for i in range(row,row+3):
         for j in range(column,column+3):
-            if grid[i][j]==number:
+            if  (i!=r and j!=c) and  grid[i][j]==number:
+                #print(i,j)
                 print("here 3X3")
                 return False
     
     return True
 
-def validate(dic,validated,existed):
+def validate(existed):
     global l
     #print(l)
-    for i in validated:
-        num=int(i[3::])
-        row=num//9
-        column=(num-1)-(row*9)
-        l[row][column]=int(existed[i])
-    #print(l)
+    if len(existed)!=0:
+        for i in existed:
+            num=int(i[3::])
+            row=num//9
+            column=(num-1)-(row*9)
+            l[row][column]=int(existed[i])
+    print(np.matrix(l))
     flag=1
     error=[] 
     validated=[]
     #print(dic,"dixdd")
-    for i in dic:
+    for i in existed:
         num=int(i[3::])
         #print(num)
         row=num//9
         column=(num-1)-(row*9)
         #print(row,column)
         
-        x=int(dic[i])
+        x=int(existed[i])
         value=check(l,row,column,x)
-        print(value)
+        #print(value)
         if value:
-            l[row][column]=int(dic[i])
+            l[row][column]=int(existed[i])
             validated.append(i)
             pass
         else:
             flag=0
-            l[row][column]=int(dic[i])
+            l[row][column]=int(existed[i])
             error.append(i)
     if flag==0:
         return False,error
